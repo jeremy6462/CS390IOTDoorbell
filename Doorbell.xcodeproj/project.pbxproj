@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		738AFCFA1EAE7EB900EA0429 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738AFCF91EAE7EB900EA0429 /* AppDelegate.swift */; };
-		738AFCFC1EAE7EB900EA0429 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738AFCFB1EAE7EB900EA0429 /* ViewController.swift */; };
+		738AFCFC1EAE7EB900EA0429 /* DoorbellSubscribersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738AFCFB1EAE7EB900EA0429 /* DoorbellSubscribersViewController.swift */; };
 		738AFCFF1EAE7EB900EA0429 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 738AFCFD1EAE7EB900EA0429 /* Main.storyboard */; };
 		738AFD011EAE7EB900EA0429 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 738AFD001EAE7EB900EA0429 /* Assets.xcassets */; };
 		738AFD041EAE7EB900EA0429 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 738AFD021EAE7EB900EA0429 /* LaunchScreen.storyboard */; };
@@ -17,7 +17,7 @@
 /* Begin PBXFileReference section */
 		738AFCF61EAE7EB900EA0429 /* Doorbell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doorbell.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		738AFCF91EAE7EB900EA0429 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		738AFCFB1EAE7EB900EA0429 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		738AFCFB1EAE7EB900EA0429 /* DoorbellSubscribersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoorbellSubscribersViewController.swift; sourceTree = "<group>"; };
 		738AFCFE1EAE7EB900EA0429 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		738AFD001EAE7EB900EA0429 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		738AFD031EAE7EB900EA0429 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -55,7 +55,7 @@
 			isa = PBXGroup;
 			children = (
 				738AFCF91EAE7EB900EA0429 /* AppDelegate.swift */,
-				738AFCFB1EAE7EB900EA0429 /* ViewController.swift */,
+				738AFCFB1EAE7EB900EA0429 /* DoorbellSubscribersViewController.swift */,
 				738AFCFD1EAE7EB900EA0429 /* Main.storyboard */,
 				738AFD001EAE7EB900EA0429 /* Assets.xcassets */,
 				738AFD021EAE7EB900EA0429 /* LaunchScreen.storyboard */,
@@ -137,7 +137,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				738AFCFC1EAE7EB900EA0429 /* ViewController.swift in Sources */,
+				738AFCFC1EAE7EB900EA0429 /* DoorbellSubscribersViewController.swift in Sources */,
 				738AFCFA1EAE7EB900EA0429 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -269,6 +269,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.390IOTJackJeremy.Doorbell;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -282,6 +283,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.390IOTJackJeremy.Doorbell;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
