@@ -72,8 +72,10 @@ class DoorbellSubscribersViewController: UIViewController {
 
     @IBAction func addButtonPressed(_ sender: Any) {
         
-        let addPhoneNumberAlert = UIAlertController(title: "Add Doorbell Subscriber", message: "Enter the phone number to be notified via text when the doorbell rings (only numeric characters starting with a 1!)", preferredStyle: .alert)
-        addPhoneNumberAlert.addTextField(configurationHandler: nil)
+        let addPhoneNumberAlert = UIAlertController(title: "Add Doorbell Subscriber", message: "Enter the phone number to be notified via text when the doorbell rings \n (only 10 numeric characters starting with a 1!)", preferredStyle: .alert)
+        addPhoneNumberAlert.addTextField { (textField) in
+            textField.keyboardType = .numberPad
+        }
         
         let addAction = UIAlertAction(title: "Add", style: .default) { (_) in
             
@@ -85,11 +87,39 @@ class DoorbellSubscribersViewController: UIViewController {
             // make sure the phone number text matches the phone number regex
             let phoneNumberRegex = try! NSRegularExpression(pattern: "1[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]", options: NSRegularExpression.Options.allowCommentsAndWhitespace)
             let matches: [NSTextCheckingResult] = phoneNumberRegex.matches(in: text, options: NSRegularExpression.MatchingOptions.anchored, range: NSRange(location: 0, length: text.characters.count))
-            if matches.isEmpty { return }
+            if matches.isEmpty {
+                
+                let errorAlert = UIAlertController(title: "Incorrect Format", message: "Your phone number must start with a 1 followed by 10 digits", preferredStyle: .alert)
+                let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+                errorAlert.addAction(okayAction)
+                
+                OperationQueue.main.addOperation({
+                    self.present(errorAlert, animated: true, completion: nil)
+                })
+                
+                return
+                
+            }
             
             // grab the first match
             let phoneNumberMatchResult = matches.first!
             let phoneNumber = (text as NSString).substring(with: phoneNumberMatchResult.range)
+            
+            // check for duplicates 
+            for existingNumber in self.phoneNumbers {
+                if phoneNumber == existingNumber { // found duplicate
+                    
+                    let errorAlert = UIAlertController(title: "Duplicate Phone Number", message: "\(phoneNumber) already subscribes to doorbell notifications", preferredStyle: .alert)
+                    let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+                    errorAlert.addAction(okayAction)
+                    
+                    OperationQueue.main.addOperation({
+                        self.present(errorAlert, animated: true, completion: nil)
+                    })
+                    
+                    return
+                }
+            }
             
             // save the phone number to the server
 //            var request = URLRequest(url: URL(string: self.JACK_SERVER_ADDRESS + "/add/" + phoneNumber)!)
