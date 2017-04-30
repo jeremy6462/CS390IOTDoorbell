@@ -14,7 +14,7 @@ class DoorbellSubscribersViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    let JACK_SERVER_ADDRESS = "TODO_ENTER_JACKS_ADDRESS_HERE"
+    let JACK_SERVER_ADDRESS = "http://55359534.ngrok.io"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,50 +23,62 @@ class DoorbellSubscribersViewController: UIViewController {
         self.tableView.dataSource = self
         
         // get request to access phone numbers from server
-//        var request = URLRequest(url: URL(string: JACK_SERVER_ADDRESS + "/numbers")!)
-//        request.httpMethod = "GET"
-//        let session = URLSession.shared
-//        
-//        session.dataTask(with: request) { (data, response, err) in
-//            if err != nil {
-//                
-//                // create an alert to show the error and tell the user to quit the app
-//                let errorAlert = UIAlertController(title: "Error Fetching from the Server", message: "Please restart the app to load phone numbers: \(String(describing: err?.localizedDescription))", preferredStyle: .alert)
-//                let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
-//                errorAlert.addAction(okayAction)
-//                
-//                OperationQueue.main.addOperation({
-//                    self.present(errorAlert, animated: true, completion: nil)
-//                })
-//                
-//                
-//            } else {
-//        
-//                guard let phoneNumbersDelimited = String(data: data!, encoding: String.Encoding.ascii) else {
-//                    
-//                    // create an alert to show the error and tell the user to quit the app
-//                    let errorAlert = UIAlertController(title: "Error Fetching from the Server", message: "Please restart the app to load phone numbers: \(String(describing: err?.localizedDescription))", preferredStyle: .alert)
-//                    let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
-//                    errorAlert.addAction(okayAction)
-//                    
-//                    OperationQueue.main.addOperation({
-//                        self.present(errorAlert, animated: true, completion: nil)
-//                    })
-//                    
-//                    return
-//                    
-//                }
-//                
-//                // parse the phone numbers returned from the server
-//                let seperatedPhoneNumbers = phoneNumbersDelimited.components(separatedBy: " ")
-//                self.phoneNumbers = seperatedPhoneNumbers
-//                OperationQueue.main.addOperation({
-//                    self.tableView.reloadData()
-//                })
-//                
-//            }
-//            
-//        }.resume()
+        var request = URLRequest(url: URL(string: JACK_SERVER_ADDRESS + "/numbers")!)
+        request.httpMethod = "GET"
+        let session = URLSession.shared
+        
+        session.dataTask(with: request) { (data, response, err) in
+            if err != nil {
+                
+                // create an alert to show the error and tell the user to quit the app
+                let errorAlert = UIAlertController(title: "Error Fetching from the Server", message: "Please restart the app to load phone numbers: \(String(describing: err?.localizedDescription))", preferredStyle: .alert)
+                let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+                errorAlert.addAction(okayAction)
+                
+                OperationQueue.main.addOperation({
+                    self.present(errorAlert, animated: true, completion: nil)
+                })
+                
+                
+            } else {
+        
+                guard let phoneNumbersDelimited = String(data: data!, encoding: String.Encoding.ascii) else {
+                    
+                    // create an alert to show the error and tell the user to quit the app
+                    let errorAlert = UIAlertController(title: "Error Fetching from the Server", message: "Please restart the app to load phone numbers: \(String(describing: err?.localizedDescription))", preferredStyle: .alert)
+                    let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+                    errorAlert.addAction(okayAction)
+                    
+                    OperationQueue.main.addOperation({
+                        self.present(errorAlert, animated: true, completion: nil)
+                    })
+                    
+                    return
+                    
+                }
+                
+                // parse the phone numbers returned from the server
+                let seperatedPhoneNumbersAndSpaces: [String] = phoneNumbersDelimited.components(separatedBy: " ")
+                
+                // remove spaces
+                var seperatedPhoneNumbers = [String]()
+                
+                for entry in seperatedPhoneNumbersAndSpaces {
+                    if entry.isEmpty || entry == "" || entry == " " {
+                        continue
+                    } else {
+                        seperatedPhoneNumbers.append(entry)
+                    }
+                }
+                
+                self.phoneNumbers = seperatedPhoneNumbers
+                OperationQueue.main.addOperation({
+                    self.tableView.reloadData()
+                })
+                
+            }
+            
+        }.resume()
         
     }
 
@@ -122,40 +134,40 @@ class DoorbellSubscribersViewController: UIViewController {
             }
             
             // save the phone number to the server
-//            var request = URLRequest(url: URL(string: self.JACK_SERVER_ADDRESS + "/add/" + phoneNumber)!)
-//            request.httpMethod = "POST"
-//            let session = URLSession.shared
-//            
-//            session.dataTask(with: request) {data, response, err in
-//                
-//                if err != nil {
-//                    
-//                    // create an alert to show the error and tell the user to quit the app
-//                    let errorAlert = UIAlertController(title: "Error Sending Phone Number to the Server", message: "\(String(describing: err?.localizedDescription))", preferredStyle: .alert)
-//                    let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
-//                    errorAlert.addAction(okayAction)
-//                    
-//                    OperationQueue.main.addOperation({
-//                        self.present(errorAlert, animated: true, completion: nil)
-//                    })
-//                    
-//                } else { // if there is no problem save the phone number to the device
-//                    
-//                    // save the phone number to the device
-//                    self.phoneNumbers.append(phoneNumber)
-//                    OperationQueue.main.addOperation({
-//                        self.tableView.reloadData()
-//                    })
-//                    
-//                }
-//                
-//            }.resume()
+            var request = URLRequest(url: URL(string: self.JACK_SERVER_ADDRESS + "/add/" + phoneNumber)!)
+            request.httpMethod = "POST"
+            let session = URLSession.shared
             
-            // TODO - Remove after network code works
-            self.phoneNumbers.append(phoneNumber)
-            OperationQueue.main.addOperation({
-                self.tableView.reloadData()
-            })
+            session.dataTask(with: request) {data, response, err in
+                
+                if err != nil {
+                    
+                    // create an alert to show the error and tell the user to quit the app
+                    let errorAlert = UIAlertController(title: "Error Sending Phone Number to the Server", message: "\(String(describing: err?.localizedDescription))", preferredStyle: .alert)
+                    let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+                    errorAlert.addAction(okayAction)
+                    
+                    OperationQueue.main.addOperation({
+                        self.present(errorAlert, animated: true, completion: nil)
+                    })
+                    
+                } else { // if there is no problem save the phone number to the device
+                    
+                    // save the phone number to the device
+                    self.phoneNumbers.append(phoneNumber)
+                    OperationQueue.main.addOperation({
+                        self.tableView.reloadData()
+                    })
+                    
+                }
+                
+            }.resume()
+            
+//            // TODO - Remove after network code works
+//            self.phoneNumbers.append(phoneNumber)
+//            OperationQueue.main.addOperation({
+//                self.tableView.reloadData()
+//            })
             
         }
         
@@ -200,41 +212,41 @@ extension DoorbellSubscribersViewController: UITableViewDataSource, UITableViewD
         if editingStyle == .delete {
             
             // delete phone number from server
-//            var request = URLRequest(url: URL(string: self.JACK_SERVER_ADDRESS + "/remove/" + phoneNumbers[indexPath.row])!)
-//            request.httpMethod = "POST"
-//            let session = URLSession.shared
-//            
-//            session.dataTask(with: request) {data, response, err in
-//                
-//                if err != nil {
-//                    
-//                    // create an alert to show the error and tell the user to quit the app
-//                    let errorAlert = UIAlertController(title: "Error Removing Phone Number from the Server", message: "\(String(describing: err?.localizedDescription))", preferredStyle: .alert)
-//                    let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
-//                    errorAlert.addAction(okayAction)
-//                    
-//                    OperationQueue.main.addOperation({
-//                        self.present(errorAlert, animated: true, completion: nil)
-//                    })
-//                    
-//                } else { // if there is no problem removing the phone number, then delete it from the device
-//                    
-//                    // delete number from phone
-//                    self.phoneNumbers.remove(at: indexPath.row)
-//                    OperationQueue.main.addOperation({
-//                        self.tableView.reloadData()
-//                    })
-//                    
-//                    
-//                }
-//                
-//                }.resume()
+            var request = URLRequest(url: URL(string: self.JACK_SERVER_ADDRESS + "/remove/" + phoneNumbers[indexPath.row])!)
+            request.httpMethod = "POST"
+            let session = URLSession.shared
             
-            // TODO - remove once network code works
-            self.phoneNumbers.remove(at: indexPath.row)
-            OperationQueue.main.addOperation({
-                self.tableView.reloadData()
-            })
+            session.dataTask(with: request) {data, response, err in
+                
+                if err != nil {
+                    
+                    // create an alert to show the error and tell the user to quit the app
+                    let errorAlert = UIAlertController(title: "Error Removing Phone Number from the Server", message: "\(String(describing: err?.localizedDescription))", preferredStyle: .alert)
+                    let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+                    errorAlert.addAction(okayAction)
+                    
+                    OperationQueue.main.addOperation({
+                        self.present(errorAlert, animated: true, completion: nil)
+                    })
+                    
+                } else { // if there is no problem removing the phone number, then delete it from the device
+                    
+                    // delete number from phone
+                    self.phoneNumbers.remove(at: indexPath.row)
+                    OperationQueue.main.addOperation({
+                        self.tableView.reloadData()
+                    })
+                    
+                    
+                }
+                
+                }.resume()
+            
+//            // TODO - remove once network code works
+//            self.phoneNumbers.remove(at: indexPath.row)
+//            OperationQueue.main.addOperation({
+//                self.tableView.reloadData()
+//            })
             
         }
     }
